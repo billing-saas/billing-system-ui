@@ -38,7 +38,7 @@ export default function LoginPage() {
             setIsLoading(true);
             await AuthService.login(data);
             toast.success("Successfully logged in!");
-            // router.push("/dashboard");
+            router.push("/dashboard");
         } catch (error: any) {
             toast.error(error.response?.data?.error?.message || "An error occurred during login.");
         } finally {
