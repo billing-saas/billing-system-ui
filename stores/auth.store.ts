@@ -4,7 +4,6 @@ import { persist } from "zustand/middleware";
 type User = {
     id: string;
     email: string;
-    role: string;
 };
 
 type AuthStore = {

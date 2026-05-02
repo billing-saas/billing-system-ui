@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthStore } from "@/stores/auth.store";
-import { AuthService } from "@/lib/api/auth";
+import { AuthService } from "@/lib/api/auth.api";
 import { useRouter } from "next/navigation";
 
 export const useAuth = () => {

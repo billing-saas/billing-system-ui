@@ -1,103 +1,145 @@
 "use client";
 
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, LoginSchema } from "@/lib/validations/auth.schema";
+import { AuthService } from "@/lib/api/auth.api";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
+import { Loader2, Eye, EyeOff } from "lucide-react";
+import { toast } from "sonner";
 
 export default function LoginPage() {
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
+    const form = useForm<LoginSchema>({
+        resolver: zodResolver(loginSchema),
+        defaultValues: {
+            email: "",
+            password: "",
+        },
+    });
 
-    const handleLogin = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setLoading(true);
-        setError("");
-
+    const onSubmit = async (data: LoginSchema) => {
         try {
-            // Simulation API (remplace par ton backend Laravel)
-            if (email === "admin@test.com" && password === "password") {
-                document.cookie = "auth-storage=fake-token; path=/";
-                router.push("/dashboard");
-            } else {
-                throw new Error("Invalid credentials");
-            }
-        } catch (err: any) {
-            setError("Email ou mot de passe incorrect");
+            setIsLoading(true);
+            await AuthService.login(data);
+            toast.success("Successfully logged in!");
+            // router.push("/dashboard");
+        } catch (error: any) {
+            toast.error(error.response?.data?.error?.message || "An error occurred during login.");
         } finally {
-            setLoading(false);
+            setIsLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-950 text-white">
-            <div className="w-full max-w-md bg-gray-900 p-8 rounded-2xl shadow-xl border border-gray-800">
+        <div className="bg-white rounded-2xl border border-slate-200 p-8">
 
-                {/* Header */}
-                <div className="mb-6 text-center">
-                    <h1 className="text-3xl font-bold">Billing System</h1>
-                    <p className="text-gray-400 text-sm mt-2">
-                        Connectez-vous pour gérer vos factures
-                    </p>
-                </div>
-
-                {/* Error */}
-                {error && (
-                    <div className="bg-red-500/10 border border-red-500 text-red-400 p-3 rounded-lg mb-4 text-sm">
-                        {error}
-                    </div>
-                )}
-
-                {/* Form */}
-                <form onSubmit={handleLogin} className="space-y-4">
-
-                    <div>
-                        <label className="block text-sm text-gray-400 mb-1">
-                            Email
-                        </label>
-                        <input
-                            type="email"
-                            placeholder="ex: admin@billing.com"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm text-gray-400 mb-1">
-                            Mot de passe
-                        </label>
-                        <input
-                            type="password"
-                            placeholder="••••••••"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            required
-                        />
-                    </div>
-
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="w-full bg-indigo-600 hover:bg-indigo-700 transition-all py-2 rounded-lg font-semibold"
-                    >
-                        {loading ? "Connexion..." : "Se connecter"}
-                    </button>
-                </form>
-
-                {/* Footer */}
-                <p className="text-center text-sm text-gray-500 mt-6">
-                    Pas encore de compte ?{" "}
-                    <a href="/register" className="text-indigo-400 hover:underline">
-                        Créer un compte
-                    </a>
+            <div className="mb-6">
+                <h1 className="text-xl font-semibold text-slate-900">
+                    Login
+                </h1>
+                <p className="text-sm text-slate-500 mt-1">
+                    Access your billing area.
                 </p>
             </div>
+
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+
+                    <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="text-slate-700">Email</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        type="email"
+                                        placeholder="vous@example.com"
+                                        className="border-slate-200"
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                            <FormItem>
+                                <div className="flex items-center justify-between">
+                                    <FormLabel className="text-slate-700">
+                                        Password
+                                    </FormLabel>
+                                    <Link
+                                        href="/forgot-password"
+                                        className="text-xs text-blue-600 hover:underline"
+                                    >
+                                        Forgot password ?
+                                    </Link>
+                                </div>
+                                <FormControl>
+                                    <div className="relative">
+                                        <Input
+                                            type={showPassword ? "text" : "password"}
+                                            placeholder="••••••••"
+                                            className="border-slate-200 pr-10"
+                                            {...field}
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                                        >
+                                            {showPassword
+                                                ? <EyeOff className="w-4 h-4" />
+                                                : <Eye className="w-4 h-4" />
+                                            }
+                                        </button>
+                                    </div>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <Button
+                        type="submit"
+                        disabled={isLoading}
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-2"
+                    >
+                        {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                        Sign in
+                    </Button>
+
+                </form>
+            </Form>
+
+            <p className="text-center text-sm text-slate-500 mt-6">
+                Don't have an account yet ?{" "}
+                <Link href="/register" className="text-blue-600 hover:underline font-medium">
+                    Create an account
+                </Link>
+            </p>
+
         </div>
     );
 }
