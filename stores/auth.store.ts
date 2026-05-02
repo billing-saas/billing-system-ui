@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
+import Cookies from "js-cookie";
 
 type User = {
     id: string;
@@ -13,6 +14,15 @@ type AuthStore = {
     logout: () => void;
 };
 
+const cookieStorage = {
+    getItem: (name: string) => Cookies.get(name) ?? null,
+    setItem: (name: string, value: string) => Cookies.set(name, value, { expires: 7 }),
+    removeItem: (name: string): undefined => {
+        Cookies.remove(name);
+        return undefined;
+    },
+};
+
 export const useAuthStore = create<AuthStore>()(
     persist(
         (set) => ({
@@ -21,6 +31,9 @@ export const useAuthStore = create<AuthStore>()(
             setAuth: (token, user) => set({ token, user }),
             logout: () => set({ token: null, user: null }),
         }),
-        { name: "auth-storage" }
+        {
+            name: "auth-storage",
+            storage: createJSONStorage(() => cookieStorage),
+        }
     )
 );

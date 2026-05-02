@@ -36,14 +36,14 @@ export default function EditClientPage() {
     return (
         <div>
             <PageHeader
-                title="Modifier le client"
-                description={`Modification de ${data?.data.name}`}
+                title="Update Customer"
+                description={`Edit of ${data?.data.name}`}
             />
             <ClientForm
                 defaultValues={data?.data}
                 onSubmit={handleSubmit}
                 isLoading={isPending}
-                submitLabel="Enregistrer les modifications"
+                submitLabel="Save Changes"
             />
         </div>
     );

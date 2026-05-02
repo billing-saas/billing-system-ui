@@ -1,7 +1,7 @@
 "use client"
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { clientsApi } from "@/lib/api/clients";
+import { clientsApi } from "@/lib/api/clients.api";
 import { ClientFormData } from "@/types/client";
 import { toast } from "sonner";
 
@@ -38,10 +38,10 @@ export const useCreateClient = () => {
         onSuccess: () => {
             // Invalide le cache → TanStack refetch automatiquement la liste
             queryClient.invalidateQueries({ queryKey: clientKeys.all });
-            toast.success("Client créé avec succès !");
+            toast.success("Customer created successfully!");
         },
         onError: () => {
-            toast.error("Erreur lors de la création du client.");
+            toast.error("Error occurred while creating the customer.");
         },
     });
 };
@@ -55,10 +55,10 @@ export const useUpdateClient = (id: number) => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: clientKeys.all });
             queryClient.invalidateQueries({ queryKey: clientKeys.detail(id) });
-            toast.success("Client mis à jour avec succès !");
+            toast.success("Customer updated successfully!");
         },
         onError: () => {
-            toast.error("Erreur lors de la mise à jour du client.");
+            toast.error("Error occurred while updating the customer.");
         },
     });
 };
@@ -71,10 +71,10 @@ export const useDeleteClient = () => {
         mutationFn: (id: number) => clientsApi.delete(id),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: clientKeys.all });
-            toast.success("Client supprimé avec succès !");
+            toast.success("Customer deleted successfully!");
         },
         onError: () => {
-            toast.error("Erreur lors de la suppression du client.");
+            toast.error("Error occurred while deleting the customer.");
         },
     });
 };

@@ -19,13 +19,13 @@ export default function NewClientPage() {
     return (
         <div>
             <PageHeader
-                title="Nouveau client"
-                description="Ajoutez un nouveau client à votre liste."
+                title="New Customer"
+                description="Add a new customer to your list."
             />
             <ClientForm
                 onSubmit={handleSubmit}
                 isLoading={isPending}
-                submitLabel="Créer le client"
+                submitLabel="Create Customer"
             />
         </div>
     );
