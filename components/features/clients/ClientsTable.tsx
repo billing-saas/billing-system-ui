@@ -81,18 +81,18 @@ export function ClientsTable({ clients }: ClientsTableProps) {
                                             <MoreHorizontal className="w-4 h-4 text-slate-400" />
                                         </Button>
                                     </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end">
+                                    <DropdownMenuContent align="end" className="bg-white">
                                         <DropdownMenuItem
                                             onClick={() => router.push(`/clients/${client.id}`)}
                                         >
                                             <Eye className="w-4 h-4 mr-2" />
-                                            View Details
+                                            View
                                         </DropdownMenuItem>
                                         <DropdownMenuItem
                                             onClick={() => router.push(`/clients/${client.id}/edit`)}
                                         >
                                             <Pencil className="w-4 h-4 mr-2" />
-                                            Edit Customer
+                                            Edit
                                         </DropdownMenuItem>
                                         <DropdownMenuItem
                                             className="text-red-600 focus:text-red-600"
@@ -103,7 +103,7 @@ export function ClientsTable({ clients }: ClientsTableProps) {
                                             }}
                                         >
                                             <Trash2 className="w-4 h-4 mr-2" />
-                                            Delete Customer
+                                            Delete
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>

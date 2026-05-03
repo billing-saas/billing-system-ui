@@ -34,7 +34,7 @@ export function ClientsFilters() {
             <div className="relative flex-1 max-w-sm">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <Input
-                    placeholder="Rechercher un client..."
+                    placeholder="Find a customer..."
                     className="pl-9 bg-white border-slate-200"
                     defaultValue={searchParams.get("search") ?? ""}
                     onChange={(e) => handleSearch(e.target.value)}
