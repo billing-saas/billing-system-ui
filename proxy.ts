@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const PUBLIC_ROUTES = ["/login", "/register"];
+const PUBLIC_ROUTES = ["/login", "/register", "/payment-success"];
 
 export function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl;
@@ -30,6 +30,10 @@ export function proxy(request: NextRequest) {
     if (token && isPublicRoute) {
         return NextResponse.redirect(new URL("/dashboard", request.url));
     }
+
+    console.log("Middleware pathname:", pathname);
+    console.log("Token:", token);
+    console.log("isPublicRoute:", isPublicRoute);
 
     return NextResponse.next();
 }
