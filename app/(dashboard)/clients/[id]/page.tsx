@@ -18,7 +18,7 @@ import {
 import { toast } from "sonner";
 
 export default function ClientDetailPage() {
-const { id } = useParams<{ id: string }>();
+    const { id } = useParams<{ id: string }>();
     const router = useRouter();
     const clientId = Number(id);
 
