@@ -28,7 +28,7 @@ export function ClientForm({
     defaultValues,
     onSubmit,
     isLoading = false,
-    submitLabel = "Enregistrer",
+    submitLabel = "Save",
 }: ClientFormProps) {
     const form = useForm<ClientSchema>({
         resolver: zodResolver(clientSchema),
@@ -50,10 +50,10 @@ export function ClientForm({
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
-                {/* Section : Informations principales */}
+                {/* Section: Main Information */}
                 <div className="bg-white rounded-xl border border-slate-200 p-6">
                     <h2 className="text-sm font-semibold text-slate-900 mb-4">
-                        Informations principales
+                        Main Information
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <FormField
@@ -62,11 +62,11 @@ export function ClientForm({
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="text-slate-700">
-                                        Nom <span className="text-red-500">*</span>
+                                        Name <span className="text-red-500">*</span>
                                     </FormLabel>
                                     <FormControl>
                                         <Input
-                                            placeholder="Jean Dupont"
+                                            placeholder="John Doe"
                                             className="border-slate-200"
                                             {...field}
                                         />
@@ -86,7 +86,7 @@ export function ClientForm({
                                     <FormControl>
                                         <Input
                                             type="email"
-                                            placeholder="jean@example.com"
+                                            placeholder="john@example.com"
                                             className="border-slate-200"
                                             {...field}
                                         />
@@ -100,7 +100,7 @@ export function ClientForm({
                             name="phone"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="text-slate-700">Téléphone</FormLabel>
+                                    <FormLabel className="text-slate-700">Phone</FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="+261 34 00 000 00"
@@ -117,7 +117,7 @@ export function ClientForm({
                             name="company_name"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="text-slate-700">Entreprise</FormLabel>
+                                    <FormLabel className="text-slate-700">Company</FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Acme Inc."
@@ -135,7 +135,7 @@ export function ClientForm({
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="text-slate-700">
-                                        Numéro de TVA
+                                        Tax Number
                                     </FormLabel>
                                     <FormControl>
                                         <Input
@@ -151,10 +151,10 @@ export function ClientForm({
                     </div>
                 </div>
 
-                {/* Section : Adresse */}
+                {/* Section: Address */}
                 <div className="bg-white rounded-xl border border-slate-200 p-6">
                     <h2 className="text-sm font-semibold text-slate-900 mb-4">
-                        Adresse
+                        Address
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="md:col-span-2">
@@ -163,10 +163,12 @@ export function ClientForm({
                                 name="address"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-slate-700">Adresse</FormLabel>
+                                        <FormLabel className="text-slate-700">
+                                            Street Address
+                                        </FormLabel>
                                         <FormControl>
                                             <Input
-                                                placeholder="123 Rue Principale"
+                                                placeholder="123 Main Street"
                                                 className="border-slate-200"
                                                 {...field}
                                             />
@@ -181,7 +183,7 @@ export function ClientForm({
                             name="city"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="text-slate-700">Ville</FormLabel>
+                                    <FormLabel className="text-slate-700">City</FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Antananarivo"
@@ -198,7 +200,9 @@ export function ClientForm({
                             name="postal_code"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="text-slate-700">Code postal</FormLabel>
+                                    <FormLabel className="text-slate-700">
+                                        Postal Code
+                                    </FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="101"
@@ -215,7 +219,7 @@ export function ClientForm({
                             name="country"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="text-slate-700">Pays</FormLabel>
+                                    <FormLabel className="text-slate-700">Country</FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Madagascar"
@@ -230,7 +234,7 @@ export function ClientForm({
                     </div>
                 </div>
 
-                {/* Section : Notes */}
+                {/* Section: Notes */}
                 <div className="bg-white rounded-xl border border-slate-200 p-6">
                     <h2 className="text-sm font-semibold text-slate-900 mb-4">
                         Notes
@@ -242,7 +246,7 @@ export function ClientForm({
                             <FormItem>
                                 <FormControl>
                                     <Textarea
-                                        placeholder="Informations complémentaires sur ce client..."
+                                        placeholder="Additional information about this client..."
                                         className="border-slate-200 resize-none"
                                         rows={4}
                                         {...field}
@@ -262,14 +266,16 @@ export function ClientForm({
                         className="border-slate-200"
                         onClick={() => window.history.back()}
                     >
-                        Annuler
+                        Cancel
                     </Button>
                     <Button
                         type="submit"
                         disabled={isLoading}
                         className="bg-blue-600 hover:bg-blue-700 text-white"
                     >
-                        {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                        {isLoading && (
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        )}
                         {submitLabel}
                     </Button>
                 </div>
