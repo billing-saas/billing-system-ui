@@ -15,6 +15,7 @@ import {
     Pencil,
     Download,
     Loader2,
+    ExternalLink,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -120,6 +121,16 @@ export function InvoiceActions({ invoice }: InvoiceActionsProps) {
                         : <CheckCircle className="w-4 h-4 mr-2" />
                     }
                     Mark as Paid
+                </Button>
+            )}
+            {invoice.status === "sent" && invoice.stripe_payment_url && (
+                <Button
+                    variant="outline"
+                    className="border-blue-200 text-blue-600 hover:bg-blue-50"
+                    onClick={() => window.open(invoice.stripe_payment_url!, "_blank")}
+                >
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    View Payment Page
                 </Button>
             )}
 
