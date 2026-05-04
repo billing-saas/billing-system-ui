@@ -43,3 +43,23 @@ cd billing-system-frontend
 
 npm install
 ```
+
+## Run the project
+
+```bash
+npm run dev
+```
+
+The frontend will be available at:
+```
+http://localhost:3000
+```
+
+## Backend dependency
+
+This frontend requires:
+
+the Laravel API running locally
+the external AaaS service running locally
+
+AaaS repository: https://github.com/patrick-rakotoharilalao/auth-service-project
