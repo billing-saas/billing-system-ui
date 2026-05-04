@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, FileText, LogOut, ChevronRight } from "lucide-react";
+import { LayoutDashboard, Users, FileText, LogOut, ChevronRight, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -10,6 +10,7 @@ const navItems = [
     { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { label: "Customers", href: "/clients", icon: Users },
     { label: "Invoices", href: "/invoices", icon: FileText },
+    { label: "Settings", href: "/settings", icon: Settings },
 ];
 
 export function Sidebar() {
@@ -80,7 +81,7 @@ export function Sidebar() {
                     className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 hover:bg-red-50 hover:text-red-600 transition-all group"
                 >
                     <LogOut className="w-4 h-4 text-slate-400 group-hover:text-red-500 transition-colors" />
-                    Déconnexion
+                    Log out
                 </button>
             </div>
 
