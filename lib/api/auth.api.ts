@@ -78,7 +78,13 @@ export const AuthService = {
 
     logout: async () => {
         try {
-            await aaasApi.post("/auth/logout");
+            const token = useAuthStore.getState().token;
+
+            await aaasApi.post("/auth/logout", {}, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
         } finally {
             useAuthStore.getState().logout();
         }
